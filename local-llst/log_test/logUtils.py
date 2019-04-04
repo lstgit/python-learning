@@ -39,3 +39,7 @@ if __name__ == '__main__':
     log.log.debug('dadad')
     log.log.info('adasd')
     # print('adasd')
+    try:
+        i = 10 / 0
+    except Exception as e:
+        log.log.error("error:%s" % e)
