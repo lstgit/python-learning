@@ -2,17 +2,28 @@ import threading, time, log_test.logUtils as logger
 
 log = logger.Logger(file_name='thread_test.log', level='debug').log
 
+num = 150
 
-def sayhi(num):
+
+def sayhi():
+    global num
     log.info('%s running number: %d ' % (threading.currentThread().getName(), num))
+    time.sleep(0.005)
+    num -= 1
+    log.info('%s ***sayhi  end*** and num = %d' % (threading.currentThread().getName(), num))
 
-    # time.sleep(4)
-    log.info('%s ***sayhi  end*** ' % (threading.currentThread().getName()))
+
+def say_hello():
+    global num
+    log.info('%s running number: %d ' % (threading.currentThread().getName(), num))
+    time.sleep(0.001)
+    num += 1
+    log.info('%s ***say hello  end***  and num = %d' % (threading.currentThread().getName(), num))
 
 
 class My_thread(threading.Thread):
 
-    def __init__(self, thread_name=None, target=None, daemon=False, args=None):
+    def __init__(self, thread_name=None, target=None, daemon=False, args=()):
         super(My_thread, self).__init__(target=target, daemon=daemon, args=args)
         log.debug('current thread name is %s' % (threading.currentThread().getName()))
         self._thread_name = thread_name
@@ -26,8 +37,8 @@ class My_thread(threading.Thread):
 
 
 def thread_run():
-    t1 = threading.Thread(target=sayhi, args=[22])
-    t2 = threading.Thread(target=sayhi, args=[33])
+    t1 = threading.Thread(target=sayhi, args=[num])
+    t2 = threading.Thread(target=say_hello, args=[num])
     t1.start()
     t2.start()
     log.info('%s-----end' % (threading.currentThread().getName()))
@@ -35,7 +46,12 @@ def thread_run():
 
 if __name__ == '__main__':
     # thread_run()
-    for i in range(10):
-        my_thread = My_thread(thread_name='test-%d' % i, target=sayhi, args=[10+i])
+    threads = []
+    for i in range(100):
+        my_thread = My_thread(thread_name='test-%d' % i, target=sayhi, args=[])
         my_thread.start()
-    log.info('main thread end...')
+        threads.append(my_thread)
+        del my_thread
+    for each in threads:
+        each.join()
+    log.info('main thread end...num = %d' % num)
