@@ -93,7 +93,7 @@ def main():
     # sql = 'select convert(HISTORY_DATA using utf8) as history_Data from zx_user_history where account="apiwangjia" limit 10'
 
     # sql = 'select account,date,type,cid,name,mobile,convert(history_data using utf8) as history_data,tid from zx_user_history where account ="apiwangjia" limit 10'
-    sql = 'select account,date,type,cid,name,mobile,convert(history_data using utf8) as history_data,tid from zx_user_history where account =%s '
+    sql = 'select account,date,type,cid,name,mobile,convert(history_data using utf8) as history_data,tid from zx_user_history where account =%s order by  date desc limit 10 '
     data = mysql_pool.exec(sql, 'apiwangjia')
     for each in data:
         print(each)
