@@ -12,7 +12,13 @@ def test():
 @app.route("/test", methods=["GET", "POST"])
 def index():
     if request.method == 'POST':
-        return "world"
+        data = request.get_data()
+        # value = request.values
+        print(request.environ)
+        # print(type(data))
+        # print(value)
+        print('cookie is '+request.cookies.__str__())
+        return data
     return "Hello"
 
 
