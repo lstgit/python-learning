@@ -1,4 +1,5 @@
 import requests, json
+from numpy.distutils import log
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
@@ -6,7 +7,7 @@ headers = {
 
 
 # 简单查询
-def send(method, url, data):
+def send(method, url, data=None):
     if method == 'get':
         rsp = requests.get(url=url)
         return rsp
@@ -26,3 +27,8 @@ if __name__ == '__main__':
     state_code = response.status_code
     if state_code == 200:
         print(response.text)
+    response1 = send('get', 'https://www.baidu.com')
+    state_code1 = response1.status_code
+    log.info('request baidu state code is :{}', state_code)
+    if 200 == state_code1:
+        print(response1.text)
