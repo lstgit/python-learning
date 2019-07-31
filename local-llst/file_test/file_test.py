@@ -12,10 +12,10 @@ def one_to_two(file_name, flag):
     log.info(file)
     log.info('*' * 100)
     result = file.read()
-    log.info(type(result))
-    log.info(result)
+    # log.info(type(result))
+    # log.info(result)
     file.close()
-    log.info(result)
+    # log.info(result)
     if flag == 'zuh':
         name = 'C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zuh.log'
         pattern = re.compile(r'data:ZxUserHistory (.*?),error:')
@@ -23,35 +23,36 @@ def one_to_two(file_name, flag):
         name = 'C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log'
         pattern = re.compile(r'data:ZxDsHistory (.*?),error:')
     rs = pattern.findall(result)
-    print(rs)
-    print(type(rs))
-
+    # print(rs)
+    # print(type(rs))
     try:
         with open(name, mode='a', encoding='utf8') as file:
             for i in range(len(rs)):
                 # if i % 2 == 0:
-                print(rs[i])
+                # print(rs[i])
                 rs[i].encode()
                 file.write(rs[i])
                 file.write('\n')
-                print('-' * 100)
+                # print('-' * 100)
     except Exception as e:
         print(e)
-    finally:
-        file.close()
     log.info("done")
     pass
 
 
 def read_file_to_json(file_name):
+    data_list = []
     with open(file_name, mode='r', encoding='utf8') as file:
         content = file.readlines()
         for i in range(len(content)):
-            print(content[i])
-            parse_str_to_json(content[i])
+            # print(content[i])
+            data = parse_str_to_json(content[i])
+            data_list.append(data)
+    return data_list
     pass
 
 
+regex_data = 'saveZxDsHistory,data:(.*?),sql'
 regex_account = 'account=(.*?),'
 regex_date = 'date=(.*?),'
 regex_ds_name = 'dsName=(.*?),'
@@ -64,15 +65,15 @@ regex_email = 'email=(.*?),'
 regex_charge = 'charge=(.*?),'
 regex_expense = 'expense=(.*?),'
 regex_result = 'result=(.*?),'
-regex_tid = 'tid=(.*?),'
-regex_reqTid = 'reqTid=(.*?), category'
-regex_category = 'category=(.*?),'
+regex_tid = 'tid=(.*?), reqTid='
+regex_reqTid = 'reqTid=(.*?), category='
+regex_category = 'category=(.*?), mname='
 regex_mname = 'mname=(.*?),'
 regex_mid = 'mid=(.*?),'
 regex_businessCode = 'businessCode=(.*?),'
 regex_mType = 'mType=(.*?),'
 regex_spent = 'spent=(.*?)\]'
-regex_history_data = 'historyData=(.*?), result='
+regex_history_data = 'historyData=(.*?), result'
 
 pattern_account = re.compile(regex_account)
 pattern_date = re.compile(regex_date)
@@ -95,6 +96,7 @@ pattern_mType = re.compile(regex_mType)
 pattern_category = re.compile(regex_category)
 pattern_businessCode = re.compile(regex_businessCode)
 pattern_expense = re.compile(regex_expense)
+pattern_data = re.compile(regex_data)
 
 
 def parse_str_to_json(text):
@@ -118,16 +120,77 @@ def parse_str_to_json(text):
     data["mid"] = pattern_mid.findall(text)[0]
     data["card"] = pattern_card.findall(text)[0]
     data["mobile"] = pattern_mobile.findall(text)[0]
-    print(data)
+    data["type"] = pattern_type.findall(text)[0]
+    data["charge"] = pattern_charge.findall(text)[0]
+    # print(data)
     json_str = json.dumps(data, ensure_ascii=False)
-    print(json_str)
+    # print(json_str)
+    return json_str
+
+
+def json_to_txt(list):
+    with open("C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\json.txt", mode='a',
+              encoding='utf-8') as file:
+        for i in range(len(list)):
+            file.write(list[i])
+            file.write("\n")
+    pass
+
+
+def txt_to_sql(file_name):
+    json_list = []
+    with open(file_name, mode='r', encoding='utf-8')as file:
+        content = file.readlines()
+        for i in range(len(content)):
+            # print(content[i])
+            data = pattern_data.findall(content[i])
+            try:
+                json_list.append(data[0])
+            except Exception as e:
+                print("!!!!" * 70)
+                print(e)
+                print(content[i])
+    json_to_txt(json_list)
+
+
+def one_to_three(list):
+    with open("C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\sql.txt", mode='a',
+              encoding='utf-8')as file:
+        for i in range(len(list)):
+            file.write(list[i])
+            file.write("\n")
+        pass
+    pass
 
 
 if __name__ == '__main__':
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0618zdh.txt', 'zdh')
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0618zuh.txt', 'zuh')
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0619zdh.txt', 'zdh')
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0619zuh.txt', 'zuh')
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0620zdh.txt', 'zdh')
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\0620zuh.txt', 'zuh')
-    read_file_to_json('C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-01.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-02.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-03.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-04.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-05.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-06.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-07.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-08.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-09.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-10.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-11.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-12.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-13.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-14.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-15.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-16.zdh.log', 'zdh')
+    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-17.zdh.log', 'zdh')
+    data_list = read_file_to_json('C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log')
+    json_to_txt(data_list)
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-19.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-20.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-21.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-22.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-23.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-24.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-25.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-26.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-27.zdh.log')
+    # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-28.zdh.log')
+    pass
