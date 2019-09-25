@@ -21,7 +21,8 @@ def one_to_two(file_name, flag):
         pattern = re.compile(r'data:ZxUserHistory (.*?),error:')
     else:
         name = 'C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log'
-        pattern = re.compile(r'data:ZxDsHistory (.*?),error:')
+        # pattern = re.compile(r'data:ZxDsHistory (.*?),error:')
+        pattern = re.compile(r'saveZxDsHistory,data:(.*?),error:')
     rs = pattern.findall(result)
     # print(rs)
     # print(type(rs))
@@ -164,25 +165,45 @@ def one_to_three(list):
 
 
 if __name__ == '__main__':
-    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-01.zdh.log', 'zdh')
+    one_to_two(
+        'C:\\Users\\lisongtao\\Desktop\\data\\Sep-pccredit-data\\dp-bmc-pccredit.20190903.zdh.log',
+        'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\May-pccredit-data\\May-pccredit-data\\46\\dp-bmc-pccredit.2019-05-26.zdh.log',
+    #     'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\May-pccredit-data\\May-pccredit-data\\46\\dp-bmc-pccredit.2019-05-30.zdh.log',
+    #     'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\June-pccredit-data\\June-pccredit-data\\51\\dp-bmc-pccredit.2019-06-16.zdh.log',
+    #     'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\June-pccredit-data\\June-pccredit-data\\51\\dp-bmc-pccredit.2019-06-20.zdh.log',
+    #     'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\June-pccredit-data\\June-pccredit-data\\51\\dp-bmc-pccredit.2019-06-26.zdh.log',
+    #     'zdh')
+    # one_to_two(
+    #     'C:\\Users\\lisongtao\\Desktop\\data\\June-pccredit-data\\June-pccredit-data\\51\\dp-bmc-pccredit.2019-06-30.zdh.log',
+    #     'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-02.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-03.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-04.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-05.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-05.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-06.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-07.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-08.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-09.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-10.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-11.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-12.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-09.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-10.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-11.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-12.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-13.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-14.zdh.log', 'zdh')
     # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-15.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-16.zdh.log', 'zdh')
-    one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-17.zdh.log', 'zdh')
-    data_list = read_file_to_json('C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log')
-    json_to_txt(data_list)
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-16.zdh.log', 'zdh')
+    # one_to_two('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-17.zdh.log', 'zdh')
+    # data_list = read_file_to_json('C:\\Users\\lisongtao\\PycharmProjects\\local-llst\\file_test\\zdh.log')
+    # json_to_txt(data_list)
     # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-19.zdh.log')
     # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-20.zdh.log')
     # txt_to_sql('C:\\Users\\lisongtao\\Desktop\\data\\data-7\\46\\dp-bmc-pccredit.2019-07-21.zdh.log')
